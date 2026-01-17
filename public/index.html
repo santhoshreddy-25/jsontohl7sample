@@ -1,56 +1,89 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSON → HL7 Drag & Drop Mapper</title>
+    <title>JSON to HL7 Mapper</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="page">
+    <header class="hero">
+        <div class="hero-text">
+            <p class="pill">Drag & Drop Mapper</p>
+            <h1>JSON to HL7</h1>
+            <p class="subtitle">Map JSON fields to HL7 segments visually and generate a clean v2 message.</p>
+        </div>
+        <div class="hero-actions">
+            <label class="field-label" for="hl7Version">HL7 Version</label>
+            <select id="hl7Version">
+                <option value="2.3">2.3</option>
+                <option value="2.4">2.4</option>
+                <option value="2.5">2.5</option>
+                <option value="2.6">2.6</option>
+            </select>
+            <button class="primary" onclick="generateHL7()">Generate HL7</button>
+        </div>
+    </header>
 
-<h2>JSON → HL7 Drag & Drop Mapper</h2>
+    <div class="container">
 
-<div class="container">
+        <!-- LEFT PANEL : JSON -->
+        <section class="panel panel-json">
+            <h3>Input JSON</h3>
+            <p class="hint">Load your JSON and drag fields into the HL7 list.</p>
 
-    <div class="panel">
-        <h3>Input JSON</h3>
-        <textarea id="jsonInput">
+            <textarea id="jsonInput">
 {
   "patient": {
-    "id": "12345",
-    "firstName": "John",
-    "lastName": "Doe",
-    "dob": "19900101",
-    "gender": "M"
+    "id": "1",
+    "firstName": "san",
+    "lastName": "cherry",
+    "dob": "20030425",
+    "gender": "M",
+    "Primary Language": "telugu",
+    "nationality": "indian"
   }
 }
-        </textarea>
-        <button onclick="loadJson()">Load JSON</button>
+            </textarea>
 
-        <ul id="jsonFields"></ul>
+            <button class="secondary" onclick="loadJson()">Load JSON</button>
+
+            <ul id="jsonFields"></ul>
+        </section>
+
+        <!-- RIGHT PANEL : HL7 -->
+        <section class="panel panel-hl7">
+            <h3>HL7 Browser</h3>
+            <p class="hint">Pick a segment to load its fields, then drop a JSON path to map.</p>
+
+            <div class="hl7-browser">
+                <div class="hl7-box">
+                    <div class="box-header">
+                        <h4>Segments</h4>
+                        <span class="box-meta" id="segmentCount">0</span>
+                    </div>
+                    <ul id="hl7Segments"></ul>
+                </div>
+
+                <div class="hl7-box">
+                    <div class="box-header">
+                        <h4>Fields</h4>
+                        <span class="box-meta" id="fieldCount">0</span>
+                    </div>
+                    <ul id="hl7Fields"></ul>
+                </div>
+            </div>
+        </section>
+
     </div>
 
-    <div class="panel">
-        <h3>HL7 Fields</h3>
-        <ul>
-            <li class="hl7" data-field="3">PID-3 Patient ID</li>
-
-            <li class="hl7" data-field="5" data-component="1">
-                PID-5.1 Last Name
-            </li>
-            <li class="hl7" data-field="5" data-component="2">
-                PID-5.2 First Name
-            </li>
-
-            <li class="hl7" data-field="7">PID-7 DOB</li>
-            <li class="hl7" data-field="8">PID-8 Gender</li>
-        </ul>
-    </div>
-
+    <section class="panel output-panel">
+        <h3>HL7 Output</h3>
+        <textarea id="output" readonly></textarea>
+    </section>
 </div>
 
-<button onclick="generateHL7()">Generate HL7</button>
-
-<pre id="output"></pre>
-
+<!-- Your existing logic -->
 <script src="app.js"></script>
+
 </body>
 </html>
